@@ -1,0 +1,27 @@
+root = true
+
+[*.cs]
+
+# CSharpier handles formatting, keep EditorConfig minimal
+
+# Indentation
+indent_style = space
+indent_size = 4
+
+# Line endings
+end_of_line = lf
+insert_final_newline = true
+
+# Charset
+charset = utf-8
+
+# CSharpier defaults (do not conflict)
+max_line_length = 100
+
+# Disable conflicting formatting rules
+csharp_new_line_before_open_brace = ignore
+csharp_indent_block_contents = ignore
+csharp_space_after_comma = ignore
+csharp_space_around_binary_operators = ignore
+csharp_preserve_single_line_blocks = ignore
+csharp_preserve_single_line_statements = ignore
