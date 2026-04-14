@@ -1,6 +1,5 @@
 .DS_Store
 
-
 Assets/*
 !Assets/Scenes
 !Assets/Scripts
@@ -8,7 +7,6 @@ Assets/*
 !Assets/Settings
 !Assets/Prefabs
 !Assets/Resources
-!Assets/TextMesh*
 
 Library
 Logs
@@ -18,3 +16,5 @@ ProjectSettings
 Temp
 
 UserSettings
+
+Assembly-CSharp.csproj
