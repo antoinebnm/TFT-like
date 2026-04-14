@@ -11,7 +11,7 @@ public class ChampionDragHandler : MonoBehaviour
     private Vector3 offset;
     private float dragPlaneZ;
 
-    private MonoBehaviour originHolder;
+    private IUnitHolder originHolder;
 
     // smoothing
     private Vector3 velocity = Vector3.zero;
@@ -26,7 +26,6 @@ public class ChampionDragHandler : MonoBehaviour
     {
         champion = GetComponent<Champion>();
         boardLayerMask = LayerMask.GetMask("Board");
-        Debug.Log(champion.currentTile);
     }
 
     public void StartDrag(Camera camera, Vector2 mousePos)
@@ -39,8 +38,10 @@ public class ChampionDragHandler : MonoBehaviour
                 return;
         }
 
-        originHolder = champion.currentTile as MonoBehaviour;
+        originHolder = champion.GetCurrentTile();
         isDragging = true;
+
+        Debug.Log(originHolder.GetTransform().name);
 
         dragPlaneZ = transform.position.z;
 
@@ -120,7 +121,7 @@ public class ChampionDragHandler : MonoBehaviour
         // Champion on the target tile
         Champion targetChamp = targetTile.GetChampion();
         // Origin tile/position of the dragged champion
-        IUnitHolder origin = champion.currentTile;
+        IUnitHolder origin = champion.GetCurrentTile();
 
         if (targetChamp == null)
             return;
@@ -132,12 +133,13 @@ public class ChampionDragHandler : MonoBehaviour
         champion.SetTile(targetTile);
     }
 
-    void MoveTo(IUnitHolder tile)
+    void MoveTo(IUnitHolder targetTile)
     {
-        if (champion.currentTile != null)
-            champion.currentTile.Clear();
+        IUnitHolder currentTile = champion.GetCurrentTile();
+        if (currentTile != null)
+            currentTile.Clear();
 
-        champion.SetTile(tile);
+        champion.SetTile(targetTile);
     }
 
     void ResetPosition()

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// DEBUG: Remove late dev
 [ExecuteAlways]
 public class GridManager : MonoBehaviour
 {
@@ -21,13 +22,13 @@ public class GridManager : MonoBehaviour
 
     [SerializeField]
     [Min(0)]
-    private float boardScaleFactor = 1f;
+    private float boardScaleFactor = 1.24f;
 
     [SerializeField]
     private float hexXSpacing = 1f;
 
     [SerializeField]
-    private float hexYSpacing = 1f;
+    private float hexYSpacing = 0.88f;
 
     [SerializeField]
     private float baseXWorldPos = -2.9f;
@@ -36,19 +37,22 @@ public class GridManager : MonoBehaviour
     private float baseYWorldPos = 0.6f;
 
     [SerializeField]
-    private float benchOffset = 0.9f;
+    private float benchOffset = 0.8f;
 
     [SerializeField]
-    private float benchXSpacing = -0.8f;
+    private float benchXSpacing = -1.4f;
 
     [SerializeField]
-    private float benchYSpacing = 1.1f;
+    private float benchYSpacing = 1f;
 
     [SerializeField]
     [Min(0)]
-    private float benchScaleFactor = 0.8f;
+    private float benchScaleFactor = 0.6f;
 
-    [Header("Debug")]
+    [SerializeField]
+    private bool isOdd = false;
+
+    [Header("Debug")] // DEBUG: KEEP FALSE to avoid MissingReferenceException at Champion first drag
     public bool autoUpdate = false;
 
     [ContextMenu("Manually Rebuild Grid")]
@@ -120,7 +124,12 @@ public class GridManager : MonoBehaviour
 
                 // Horizontal Offset: Shift odd rows to the right
                 // y % 2 == 0 for even shift | y % 2 != 0 for odd shift
-                if (y % 2 == 0)
+                if (isOdd)
+                {
+                    if (y % 2 != 0)
+                        xPos += xSpacing / 2f;
+                }
+                else if (y % 2 == 0)
                 {
                     xPos += xSpacing / 2f;
                 }

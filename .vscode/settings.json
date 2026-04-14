@@ -67,5 +67,8 @@
     "*.sln": "*.csproj",
     "*.slnx": "*.csproj"
   },
-  "dotnet.defaultSolution": "tft.slnx"
+  "dotnet.defaultSolution": "tft.slnx",
+  "editor.detectIndentation": false,
+  "editor.tabSize": 4,
+  "editor.insertSpaces": false
 }

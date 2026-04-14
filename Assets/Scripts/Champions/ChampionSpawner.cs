@@ -19,8 +19,7 @@ public class ChampionSpawner : MonoBehaviour
             );
             Champion champ = champObj.GetComponent<Champion>();
 
-            champ.Init(data);
-            champ.SetTile(slot);
+            champ.Init(data, slot);
             return true;
         }
 
