@@ -1,13 +1,14 @@
 .DS_Store
 
 Assets/*
+!Assets/Core
 !Assets/Scenes
 !Assets/Scripts
 !Assets/ScriptableObjects
 !Assets/Settings
 !Assets/Prefabs
 !Assets/Resources
-
+!Assets/UI
 Library
 Logs
 
