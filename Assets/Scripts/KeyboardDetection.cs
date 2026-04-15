@@ -5,6 +5,7 @@ public class KeyboardDetection : MonoBehaviour
 {
     public static KeyboardDetection Instance;
     public Camera PrimaryCamera;
+    public Canvas menuCanva;
     public ChampionSpawner spawner;
     public ChampionData exampleSpawnableUnitData;
 
@@ -36,6 +37,11 @@ public class KeyboardDetection : MonoBehaviour
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             spawner.SpawnChampion(exampleSpawnableUnitData);
+        }
+
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            menuCanva.gameObject.SetActive(true);
         }
     }
 }
