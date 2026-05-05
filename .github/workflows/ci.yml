@@ -2,26 +2,58 @@ name: CI
 
 on:
   pull_request:
+    branches: [main]
   push:
     branches:
       - develop
       - main
 
 jobs:
-  test:
-    name: Run Unity Tests
+  ci:
+    name: Lint & Test
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Cache Unity Library (shared with build pipeline)
       - name: Cache Unity Library
         uses: actions/cache@v3
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
 
+      # Setup .NET (for formatting)
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      # Lint
+      - name: Check formatting
+        shell: bash
+        run: |
+          target="$(find . \( -name '*.sln' -o -name '*.csproj' \) -print | head -n 1)"
+          if [ -z "$target" ]; then
+            echo "No .sln or .csproj file found; skipping format."
+            exit 0
+          fi
+          dotnet format "$target" --verify-no-changes
+
+      # Optional syntax/type check (best-effort)
+      - name: Build (syntax check)
+        shell: bash
+        run: |
+          target="$(find . \( -name '*.sln' -o -name '*.csproj' \) -print | head -n 1)"
+          if [ -z "$target" ]; then
+            echo "No .sln or .csproj file found; skipping build."
+            exit 0
+          fi
+          dotnet restore "$target"
+          dotnet build "$target" --configuration Release
+
+      # Unity EditMode tests
       - name: Run EditMode tests
         uses: game-ci/unity-test-runner@v4
         with:
@@ -30,6 +62,7 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
+      # Unity PlayMode tests
       - name: Run PlayMode tests
         uses: game-ci/unity-test-runner@v4
         with:
