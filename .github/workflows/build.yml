@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build Unity Project
+    name: Build Game
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,15 +16,17 @@ jobs:
           - StandaloneWindows64
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Cache Library
+      # Cache Unity Library (same key as CI → reuse)
+      - name: Cache Unity Library
         uses: actions/cache@v3
         with:
           path: Library
-          key: Library-${{ matrix.targetPlatform }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
 
+      # Build with Unity
       - name: Build project
         uses: game-ci/unity-builder@v4
         with:
@@ -33,6 +35,7 @@ jobs:
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
+      # Upload artifact
       - name: Upload build
         uses: actions/upload-artifact@v4
         with:
