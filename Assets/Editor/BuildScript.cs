@@ -1,7 +1,3 @@
-using System.IO;
-using UnityEditor;
-using UnityEditor.Build.Reporting;
-
 public class BuildScript
 {
     public static void BuildWindows()
@@ -21,7 +17,7 @@ public class BuildScript
 
         if (summary.result != BuildResult.Succeeded)
         {
-            throw new System.Exception("Build failed");
+            throw new Exception("Build failed");
         }
     }
 
