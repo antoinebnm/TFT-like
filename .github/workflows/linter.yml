@@ -1,0 +1,33 @@
+name: Linter
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  test:
+    name: Run Linter
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Check formatting
+        shell: bash
+        run: |
+          target="$(find . \( -name '*.sln' -o -name '*.csproj' \) -print | head -n 1)"
+          if [ -z "$target" ]; then
+            echo "No .sln or .csproj file found; skipping dotnet format."
+            exit 0
+          fi
+          dotnet format "$target" --verify-no-changes
