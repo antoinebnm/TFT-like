@@ -140,5 +140,3 @@ TestResults/
 
 # Addressables build cache (extra safety)
 /[Aa]ssets/Addressables_Temp/
-
-format.sh
