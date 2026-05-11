@@ -68,12 +68,7 @@ public class ChampionDragHandler : MonoBehaviour
         Vector3 target = ScreenToWorldOnPlane(mousePos) + offset;
 
         // smooth movement to avoid jitter
-        transform.position = Vector3.SmoothDamp(
-            transform.position,
-            target,
-            ref velocity,
-            smoothTime
-        );
+        transform.position = Vector3.SmoothDamp(transform.position, target, ref velocity, smoothTime);
         HighlightManager.UpdateSnapPreview(cam, boardLayerMask);
     }
 
